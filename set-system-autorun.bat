@@ -11,7 +11,6 @@ If DEFINED PROFILE_DRIVE_PATH Set PATH=%PROFILE_DRIVE_PATH%;%PATH%
 GoTo :EOF
 
 :WithSystem32ACL 1=:System32_ACL 2=:Autorun_folder_name
-    If EXIST %2 GoTo ChangeDir
     Icacls "%windir%\system32" /Save %~f1 /Q > Nul
     Cscript //NoLogo %~dp0change-acl-filename.vbs %~f1 %2
     MkDir %2 2> Nul
@@ -19,7 +18,6 @@ GoTo :EOF
     Icacls %2 /SetOwner "NT SERVICE\TrustedInstaller" /Q
     Icacls . /Restore %~f1 /Q
     Del /F /Q %~f1
-    :ChangeDir
     Cd %2
     Call :WithProfileBat profile.bat
     GoTo :EOF
