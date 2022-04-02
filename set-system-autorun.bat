@@ -14,9 +14,9 @@ GoTo :EOF
     Icacls "%windir%\system32" /Save %~f1 /Q > Nul
     Cscript //NoLogo %~dp0change-acl-filename.vbs %~f1 %2
     MkDir %2 2> Nul
-    Icacls %2 /InheritanceLevel:D /Q
-    Icacls %2 /SetOwner "NT SERVICE\TrustedInstaller" /Q
-    Icacls . /Restore %~f1 /Q
+    Icacls %2 /InheritanceLevel:D /Q 2> Nul
+    Icacls %2 /SetOwner "NT SERVICE\TrustedInstaller" /Q 2> Nul
+    Icacls . /Restore %~f1 /Q 2> Nul
     Del /F /Q %~f1
     Cd %2
     Call :WithProfileBat profile.bat
@@ -30,6 +30,7 @@ GoTo :EOF
     (
         Echo @Echo OFF
         Echo For %%%%M In ^("%%~dp0mod_*.bat"^) Do Call "%%~dp0%%%%~nxM" ^> Nul
+        Echo For %%%%M In ^("%%~dp0doskey_*.macro"^) Do DosKey /MacroFile="%%~dp0%%%%~nxM"
         Echo Set PROFILE_SCRIPT=%%~f0
         Echo Set PROFILE_DRIVE_PATH=%%~dp0
         Echo Set PROFILE_DRIVE_PATH=%%PROFILE_DRIVE_PATH:~0,-1%%
