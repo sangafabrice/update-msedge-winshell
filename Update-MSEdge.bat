@@ -8,6 +8,8 @@ Call set-system-autorun.bat > nul
 SetLocal ENABLEDELAYEDEXPANSION
 Set app=%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe
 Set shim=%PROFILE_DRIVE_PATH%\msedge.bat
+Set version=
+Set link=
 Call :get-download-info version link
 Call compare-version-cli.bat "%version%" "%shim%" --version compare
 If "%compare%"=="1" (
