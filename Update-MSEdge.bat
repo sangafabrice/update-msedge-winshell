@@ -8,13 +8,14 @@ Call set-system-autorun.bat > nul
 SetLocal ENABLEDELAYEDEXPANSION
 Set app=%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe
 Set shim=%PROFILE_DRIVE_PATH%\msedge.bat
+Set compare=2
 Set version=
 Set link=
 Call :get-download-info version link
-Call compare-version-cli.bat "%version%" "%shim%" --version compare
-If "%compare%"=="1" (
+If EXIST "%app%" Call compare-version-cli.bat "%version%" "%shim%" --version compare
+If "%compare%"=="2" (
     TaskKill /IM msedge.exe /F > Nul 2>&1
-    Call download-install-msi-setup.bat "%version%" "%link%" "" "%~f1"
+    Call download-install-msi-setup.bat "%version%" "%link%" "" "%~f1" > Nul
 )
 If EXIST "%app%" (
     Call :write-to-profile "%app%"
@@ -25,10 +26,9 @@ PopD
 GoTo :EOF
 
 :get-download-info
-    Set %~2=https://edgeupdates.microsoft.com/api/products/stable
     Call set-shim-path.bat ..\tools Jq
     For /F "Tokens=1* Delims=:, " %%E in ('^
-        Curl !%~2! -s ^|^
+        Curl https://edgeupdates.microsoft.com/api/products/stable -s ^|^
         Jq ".[0].Releases" ^|^
         Jq "map(select(.Platform==\"Windows\" and .Architecture==\"x64\"))" ^|^
         Jq ".[]" ^|^

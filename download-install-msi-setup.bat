@@ -18,6 +18,8 @@ For /F "Tokens=*" %%P In ('Call download-from.bat . "%[link]%" "%~nx5"') Do (
     If Not "%~f4"=="" Call save-package.bat "%[version_msi]%" "%%~fP"
     Del /F /Q "%%~fP" > Nul
 )
+Set [version]
+Set [link]
 :EndToLocal
 EndLocal
 PopD
