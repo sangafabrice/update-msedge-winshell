@@ -61,4 +61,8 @@ GoTo :EOF
         Echo EndLocal
     ) > "%shim%"
     Reg Add "HKCR\MSEdgePDF\shell\open\command" /VE /D "\"%~f1\" --app=\"%%1\"" /F /Reg:64 > Nul
+    For %%T In (
+        Core
+        UA
+    ) Do SchTasks /Change /TN MicrosoftEdgeUpdateTaskMachine%%T /Disable > Nul 2>&1
     GoTo :EOF
