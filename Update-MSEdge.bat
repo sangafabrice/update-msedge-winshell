@@ -49,11 +49,11 @@ GoTo :EOF
         Echo SetLocal
         Echo If Not "%%~1"=="--version" ^(
         Echo     If Not "%%~1"=="-V" ^(
-        Echo         Start "" /d "%~dp1" "%~nx1" %%*
+        Echo         Start "" /D "%~dp1" "%~nx1" %%*
         Echo         GoTo :EOF
         Echo     ^)
         Echo ^)
-        Echo For /F "Skip=1 Tokens=* Delims=." %%%%V in ^('"WMIC DATAFILE WHERE Name="%wmicappname%" GET Version"'^) Do ^(
+        Echo For /F "Skip=1 Tokens=* Delims=." %%%%V In ^('"WMIC DATAFILE WHERE Name="%wmicappname%" GET Version"'^) Do ^(
         Echo     Echo %%%%V
         Echo     GoTo EndToLocal
         Echo ^)
