@@ -27,7 +27,7 @@ GoTo :EOF
 
 :get-download-info
     Call set-shim-path.bat ..\tools Jq
-    For /F "Tokens=1* Delims=:, " %%E in ('^
+    For /F "Tokens=1* Delims=:, " %%E In ('^
         Curl https://edgeupdates.microsoft.com/api/products/stable -s ^|^
         Jq ".[0].Releases" ^|^
         Jq "map(select(.Platform==\"Windows\" and .Architecture==\"x64\"))" ^|^
